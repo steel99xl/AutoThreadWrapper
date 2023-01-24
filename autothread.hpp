@@ -19,6 +19,8 @@ struct Thread {
 
   int WaitTime = 0; // Time stored in milliseconds
 
+  bool IsWorking = false; // easy way to check if the 'work' function is compleated 
+
   //	virtual void Input();
 
   virtual void FunctionCallBack() { std::cout << "PLS OVERIDE" << std::endl; };
@@ -30,6 +32,7 @@ struct Thread {
 };
 
 inline void Machine(Thread *T) {
+
   do {
     int tmp = T->WaitTime;
     switch (T->State) {
@@ -64,7 +67,9 @@ inline void Machine(Thread *T) {
     }
 
     case START: {
+      T->IsWorking = true;
       T->FunctionCallBack();
+      T->IsWorking = false;
     } break;
     };
   } while (T->AutoLoop);
@@ -74,6 +79,6 @@ inline void StartWork(Thread *T) {
 
   std::thread Worker(Machine, T);
   Worker.detach();
-}
+};
 
 }; // namespace autothread
