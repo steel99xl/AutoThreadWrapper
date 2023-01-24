@@ -30,9 +30,8 @@ struct Thread {
 };
 
 inline void Machine(Thread *T) {
-  int tmp = T->WaitTime;
-
   do {
+    int tmp = T->WaitTime;
     switch (T->State) {
 
     case STOP: {
