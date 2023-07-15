@@ -16,6 +16,7 @@ struct Thread {
                          // loop untill told to stop
 
   States State = START;
+  int Command = 0;
 
   int WaitTime = 0; // Time stored in milliseconds
 
@@ -29,6 +30,20 @@ struct Thread {
     this->State = S;
     this->WaitTime = T;
   };
+
+  // States are also commaneds, so please dont use confilcting numbers
+  // If A State is passed as a command it will set that State variabel of th thread
+  inline void InternalManager(thread *rec, unsigned int command){
+    switch(command){
+      case  START: {rec->State = START; } break;
+      case  STOP: {rec->State = STOP; } break;
+      case  WAIT: {rec->State = WAIT; } break;
+      case  BOOLWAIT: {rec->State = BOOLWAIT; } break;
+
+
+    };
+    rec->Command = command;
+  }
 };
 
 inline void Machine(Thread *T) {
